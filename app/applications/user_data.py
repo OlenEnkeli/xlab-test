@@ -8,22 +8,6 @@ from app.models.user_data import UserData
 
 
 class UserDataController:
-    def _user_data_model_to_schema(
-        self,
-        model: UserData,
-    ) -> UserDataResponse:
-        return UserDataResponse(
-            phone_number=model.phone_number,
-            name=model.name,
-            surname=model.surname,
-            patronymic=model.patronymic,
-            email=model.email,
-            country=model.country,
-            id=model.id,
-            date_created=model.date_created,
-            date_modified=model.date_modified,
-        )
-
     async def _get_by_phone_number(
         self,
         phone_number: str,
@@ -40,8 +24,19 @@ class UserDataController:
         self,
         phone_number: str,
     ) -> UserDataResponse | None:
-        result = await self._get_by_phone_number(phone_number=phone_number)
-        return self._user_data_model_to_schema(model=result)
+        model = await self._get_by_phone_number(phone_number=phone_number)
+
+        return UserDataResponse(
+            phone_number=model.phone_number,
+            name=model.name,
+            surname=model.surname,
+            patronymic=model.patronymic,
+            email=model.email,
+            country=model.country,
+            id=model.id,
+            date_created=model.date_created,
+            date_modified=model.date_modified,
+        )
 
     async def create_or_update(
         self,
