@@ -12,6 +12,5 @@ db = PostgresqlDatabase(
     }
 )
 
-db.set_allow_sync(True)
-
+db.set_allow_sync(False)
 manager = Manager(db)

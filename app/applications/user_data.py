@@ -1,3 +1,5 @@
+from datetime import datetime as dt
+
 from app.core.db.manager import manager
 from app.schemas.user_data import (
     UserDataResponse,
@@ -54,7 +56,9 @@ class UserDataController:
                 id=existed_model.id,
                 **origin.dict(),
             )
+            model.date_modified = dt.now()
 
+            await manager.update(model)
             await self.get_by_phone_number(model.phone_number)
 
         else:
