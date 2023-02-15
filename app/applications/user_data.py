@@ -1,10 +1,10 @@
 from app.core.db.manager import manager
-
 from app.schemas.user_data import (
     UserDataResponse,
     UserDataRequest,
 )
 from app.models.user_data import UserData
+from app.services.dadata.api import dadata_api
 
 
 class UserDataController:
@@ -25,6 +25,10 @@ class UserDataController:
         phone_number: str,
     ) -> UserDataResponse | None:
         model = await self._get_by_phone_number(phone_number=phone_number)
+        if not model:
+            return None
+
+        country_info = await dadata_api.get_country_info(country=model.country)
 
         return UserDataResponse(
             phone_number=model.phone_number,
@@ -33,6 +37,7 @@ class UserDataController:
             patronymic=model.patronymic,
             email=model.email,
             country=model.country,
+            country_code=country_info.country_code if country_info else None,
             id=model.id,
             date_created=model.date_created,
             date_modified=model.date_modified,
@@ -69,7 +74,6 @@ class UserDataController:
         try:
             await manager.delete(existed_model)
         except Exception as e:
-            print(e)
             return False
 
         return True

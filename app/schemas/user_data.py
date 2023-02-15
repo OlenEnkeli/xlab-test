@@ -53,6 +53,8 @@ class UserDataResponse(UserData):
         alias='id',
     )
 
+    country_code: str = None
+
     date_created: dt = dt.now()
     date_modified: dt = dt.now()
 

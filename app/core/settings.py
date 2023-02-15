@@ -17,6 +17,10 @@ class Settings(BaseSettings):
     POSTGRES_PASSWORD: str
     POSTGRES_DB: str
 
+    REDIS_HOST: str
+    REDIS_PORT: str
+    REDIS_DB: str
+
     class Config:
         case_sensitive = True
         env_file = '.env'
