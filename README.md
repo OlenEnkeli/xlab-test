@@ -34,6 +34,13 @@
     poetry install
     poetry shell
 
+
+Запуск миграция:
+
+
+    python3 migrate.py migrate all
+
+
 Запуск проекта:
     
     ./dev.sh
